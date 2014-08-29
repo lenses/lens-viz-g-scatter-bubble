@@ -112,7 +112,7 @@ Element providing a Thelma wrapper for the Google geochart.
        * 'legend' determines whether or not to display a legend
        * @type {Boolean}
        */
-      legend: true,
+      legend: false,
       /**
        * 'numberFormat' refers to the number format of the legend min and max
        * @type {String}
@@ -208,7 +208,7 @@ Element providing a Thelma wrapper for the Google geochart.
 
         if (!self.legend) { 
           self.options.colorAxis.legend.position = 'none';
-          self.options.colorA = {legend : 'none'};
+          self.options.legend.position = 'none';
         }
 
         //if no valueColor, turn of colorAxis legend
