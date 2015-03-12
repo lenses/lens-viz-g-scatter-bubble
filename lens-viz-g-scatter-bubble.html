@@ -5,12 +5,12 @@
 <!--
 Element providing a Thelma wrapper for the Google geochart.    
 
-@element th-google-regions
+@element lens-viz-g-scatter-bubble
 @blurb Element providing a Thelma wrapper for the Google geochart.
 @status alpha
-@homepage http://nishacodes.github.io/th-google-regions
+@homepage http://nishacodes.github.io/lens-viz-g-scatter-bubble
 -->
-<polymer-element name="th-google-scatter-bubble" extends="th-d3-chart" attributes="input chartData dataLabel color backgroundColor legend dataLabelX dataLabelY dataLabelSize dataLabelColor">
+<polymer-element name="lens-viz-g-scatter-bubble" extends="th-d3-chart" attributes="input chartData dataLabel color backgroundColor legend dataLabelX dataLabelY dataLabelSize dataLabelColor">
   <template> 
   <core-style ref="theme"></core-style>
   <style>
@@ -28,7 +28,7 @@ Element providing a Thelma wrapper for the Google geochart.
 
   <script>
 
-    Polymer('th-google-scatter-bubble', {
+    Polymer('lens-viz-g-scatter-bubble', {
 
       /**
        ** 'chartData' is the data represented by the map. 
