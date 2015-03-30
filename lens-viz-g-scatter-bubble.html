@@ -17,7 +17,14 @@ Element providing a Thelma wrapper for the Google geochart.
 
     <lens-u-data-utility id="utility"></lens-u-data-utility>
     
-    <lens-u-data-selector id="data_selector" input="{{input}}" selections="{{labelValueSelection}}" style="height: 10%;"></lens-u-data-selector>
+    <lens-u-data-selector id="data_selector" input="{{input}}" selections="{{labelValueSelection}}" 
+      selectionSettings='[
+        {"name": "label", "type": "any", "multi": false},
+        {"name": "x-y-size", "type": "numerical", "multi": true, "min": 2, "max": 3},
+        {"name": "color", "type": "any", "multi": false}
+      ]'
+
+    style="height: 10%;"></lens-u-data-selector>
 
     <google-chart id="googleChart" on-google-chart-render="{{chartReady}}" style="width:100%; height: 90%;"
           type='bubble'
@@ -71,7 +78,10 @@ Element providing a Thelma wrapper for the Google geochart.
        * @type {String}
        * @example: '.##'
        */
-      numberFormat: "",     
+      numberFormat: "", 
+      observe: {
+        input: "reformatData"
+      },    
       ready: function() {
         var self = this;
         
@@ -105,11 +115,10 @@ Element providing a Thelma wrapper for the Google geochart.
         var self = this; 
 
         self.numberFormats= [];
-        if(!self.labelValueSelection || !self.labelValueSelection[0] || !self.labelValueSelection[1]) {
+        if(!self.labelValueSelection || !self.labelValueSelection[0] || !self.labelValueSelection[1] 
+            || self.labelValueSelection[1].length<2) {
           return;
         }
-        var firstRow = self.labelValueSelection[1].map(function(item){ return item;}) ;
-          
 
         self._data = self.input.map(function(item, index){
           var row = [];
@@ -125,14 +134,44 @@ Element providing a Thelma wrapper for the Google geochart.
                 self.numberFormats.push({col: i + 1, prefix: format.prefix, suffix: format.suffix, groupingSymbol:',', fractionDigits: format.decimalPlaces});
               }
             }
-            var unformattedValue = self.$.utility.unformatString(item[self.labelValueSelection[1][i]]);
+          }
+
+          // x
+          var unformattedValue = self.$.utility.unformatString(item[self.labelValueSelection[1][0]]);
+          row.push(unformattedValue);
+
+          // y
+          if(self.labelValueSelection[1][1])
+          {
+            var unformattedValue = self.$.utility.unformatString(item[self.labelValueSelection[1][1]]);
             row.push(unformattedValue);
           }
+
+          // color
+          row.push(item[self.labelValueSelection[2]]);
+
+          // size
+          if(self.labelValueSelection[1][2])
+          {
+
+            var unformattedValue = self.$.utility.unformatString(item[self.labelValueSelection[1][2]]);
+            row.push(unformattedValue);
+          }
+
           return row;
         });
 
+        var firstRow = self.labelValueSelection[1].slice(0, 3);
+
+
+        // add label to x,y[,size]: label,x,y[,size]
         firstRow.unshift(self.labelValueSelection[0]);
+        
+        // add color to x,y[,size]: label,x,y[,size]
+        firstRow.splice(3,0, self.labelValueSelection[2]);
+
         self._data.unshift(firstRow);
+
 
         // If a specific number pattern is given, override the default pattern extracted from values
         if (self.numberPattern){
@@ -140,7 +179,8 @@ Element providing a Thelma wrapper for the Google geochart.
           firstRow.forEach(function(item, index){
             self.numberFormats.push({col: index, pattern: self.numberPattern});
           })  
-        } 
+        }
+
       },
       /**
        * 'configureOptions' sets the appropriate options properties for the map, given the attribute values
