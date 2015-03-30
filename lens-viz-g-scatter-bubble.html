@@ -85,8 +85,8 @@ Element providing a Thelma wrapper for the Google geochart.
       ready: function() {
         var self = this;
         
-        self.reformatData();
         self.configureOptions();
+        self.reformatData();
 
         this.$.data_selector.addEventListener('th-data-selection-changed', function() {
           this.labelValueSelection = this.$.data_selector.selections;
@@ -156,6 +156,10 @@ Element providing a Thelma wrapper for the Google geochart.
 
             var unformattedValue = self.$.utility.unformatString(item[self.labelValueSelection[1][2]]);
             row.push(unformattedValue);
+            self.options.sizeAxis = {minValue: 0,  maxSize: 30};
+          }
+          else {
+            self.options.sizeAxis = {minValue: 5,  maxSize: 5};
           }
 
           return row;
@@ -231,10 +235,6 @@ Element providing a Thelma wrapper for the Google geochart.
           self.options.legend.position = 'none';
         }
 
-        //if no Random Value, turn of colorAxis legend
-        if(self.input[0]["Random Value"]===undefined) {
-          self.options.colorAxis.legend.position = 'none';
-        }
         
       },
       /**
