@@ -142,18 +142,15 @@ Element providing a Thelma wrapper for the Google geochart.
           row.push(unformattedValue);
 
           // y
-          //if(self.labelValueSelection[2])
-          //{
-            var unformattedValue = self.$.utility.unformatString(item[self.labelValueSelection[2]]);
-            row.push(unformattedValue);
-          //}
+          var unformattedValue = self.$.utility.unformatString(item[self.labelValueSelection[2]]);
+          row.push(unformattedValue);
 
-          // color. if no selection add 0 before gchart expects color before size!
+          // color. if no selection add empty string before gchart expects color before size!
           if(self.labelValueSelection[4] && self.labelValueSelection[4]!=='none') {
             row.push(item[self.labelValueSelection[4]]);
           }
           else {
-            row.push(0);
+            row.push('');
           }
 
           // size
@@ -164,65 +161,38 @@ Element providing a Thelma wrapper for the Google geochart.
             self.options.sizeAxis = {minValue: 0,  maxSize: 30};
           }
           else {
+            // make the bubbles small equal sizes
             self.options.sizeAxis = {minValue: 5,  maxSize: 5};
           }
 
           return row;
-        });
+        });   //end loop through rows
 
-        console.log(self._data[0]);
+        // create an array of object containing the column names. first add label,x,y (all required)
+        var columnNameRow = self.labelValueSelection.slice(0, 3);
 
-
-
-
-        var firstRow = self.labelValueSelection.slice(0, 3);
-
-        console.log(firstRow);
-
-       // if(self.labelValueSelection[4] && self.labelValueSelection[4]!=='none') {
-          firstRow.push(self.labelValueSelection[4])
-      //  }
-
-        console.log(firstRow);
+        // color: if color is selected add, otherwise add empty string (because gchart expects color before size)
+        if(self.labelValueSelection[4] && self.labelValueSelection[4]!=='none') {
+          columnNameRow.push(self.labelValueSelection[4]);
+        }
+        else {
+          columnNameRow.push('');
+        }
 
         // size
         if(self.labelValueSelection[3] && self.labelValueSelection[3]!=='none') {
 
-          firstRow.push(self.labelValueSelection[3])
+          columnNameRow.push(self.labelValueSelection[3])
         }
 
-        console.log(firstRow);
+        // add columnNameRow ass the first element of _data to pass to gchart
+        self._data.unshift(columnNameRow);
 
-        self._data.unshift(firstRow);
-
-        console.log(self._data);
-
-
-
-/*
-
-
-        var firstRow = self.labelValueSelection.slice(1, 4);
-
-        console.log(firstRow);
-
-        // add label to x,y[,size]: label,x,y[,size]
-        firstRow.unshift(self.labelValueSelection[0]);
-        console.log(firstRow);
-        
-        // add color to x,y[,size]: label,x,y[,size]
-        firstRow.splice(3,0, self.labelValueSelection[4]);
-        console.log(firstRow);
-
-        self._data.unshift(firstRow);
-
-        console.log(self._data);
-*/
 
         // If a specific number pattern is given, override the default pattern extracted from values
         if (self.numberPattern){
           self.numberFormats = [];
-          firstRow.forEach(function(item, index){
+          columnNameRow.forEach(function(item, index){
             self.numberFormats.push({col: index, pattern: self.numberPattern});
           })  
         }
