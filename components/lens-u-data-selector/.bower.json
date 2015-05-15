@@ -1,0 +1,20 @@
+{
+  "name": "lens-u-data-selector",
+  "keywords": "lenses, polymer, web-components",
+  "main": "lens-u-data-selector.html",
+  "dependencies": {
+    "polymer": "Polymer/polymer#~0.5.1",
+    "core-selector": "Polymer/core-selector#^0.5",
+    "lens-u-data-utility": "thelmanews/lens-u-data-utility"
+  },
+  "homepage": "https://github.com/lenses/lens-u-data-selector",
+  "_release": "3b1565d83b",
+  "_resolution": {
+    "type": "branch",
+    "branch": "master",
+    "commit": "3b1565d83bf845efeecef5a93890b7b479d1fe6d"
+  },
+  "_source": "git://github.com/lenses/lens-u-data-selector.git",
+  "_target": "*",
+  "_originalSource": "lenses/lens-u-data-selector"
+}
