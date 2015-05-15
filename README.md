@@ -1,7 +1,7 @@
 lens-viz-g-scatter-bubble
 ================
 
-See the [component page](http://nishacodes.github.io/lens-viz-g-scatter-bubble) for more information.
+See the [component page](http://lenses.github.io/lens-viz-g-scatter-bubble) for more information.
 
 ## Getting Started
 
